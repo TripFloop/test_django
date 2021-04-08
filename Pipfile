@@ -1,4 +1,4 @@
-[[source]]
+p[[source]]
 url = "https://pypi.org/simple"
 verify_ssl = true
 name = "pypi"
@@ -7,7 +7,7 @@ name = "pypi"
 django = "*"
 django-rest-framework = "*"
 celery = "*"
-python-decouple = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
