@@ -13,6 +13,7 @@ def get_news(id):
 
 
 class NewsListView(APIView):
+    """Show all News, existing in DB"""
 
     def get(self, request):
         news = News.objects.all()
@@ -21,6 +22,7 @@ class NewsListView(APIView):
 
 
 class NewsDetailView(APIView):
+    """Show single News with id = pk"""
 
     def get(self, request, pk):
         news = get_news(id=pk)
@@ -30,6 +32,7 @@ class NewsDetailView(APIView):
 
 
 class NewsCreateView(APIView):
+    """Create new News"""
 
     def post(self, request):
         news = NewsDetailSerializer(data=request.data)
@@ -39,6 +42,7 @@ class NewsCreateView(APIView):
 
 
 class NewsDeleteView(APIView):
+    """Delete News with id = pk"""
 
     def delete(self, request, pk):
         news = get_news(id=pk)
@@ -47,6 +51,7 @@ class NewsDeleteView(APIView):
 
 
 class NewsUpdateView(APIView):
+    """Update News with id = pk"""
 
     def put(self, request, pk):
         news = get_news(id=pk)
