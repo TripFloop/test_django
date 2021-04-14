@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block title %}
+    NewsList
+{% endblock %}
+
+{% block content %}
+    <h1 class = "m-5">News list</h1>
+    {% for news in news_list %}
+    <div class="m-5">
+        <h2 class="mt-5"> {{ news.name }} </h2>
+        <p class="mt-5"> {{ news.content }} </p>
+        <p class="mt-5"> <b>Published in:</b> {{ news.publication_date|date}} </p>
+        <p class="mt-5"> <b>Published by:</b>
+            {% if news.user %}
+                {{ news.user }}
+            {% else %}
+                There is someone, who published this article, but he has stolen all information about himself
+        {% endif %}
+        </p>
+    </div>
+    {% endfor %}
+{% endblock %}

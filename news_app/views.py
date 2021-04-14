@@ -1,62 +1,27 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
-from .models import News
-from .serializers import NewsListSerializer, NewsDetailSerializer
-
-
-def get_news(id):
-    try:
-        return News.objects.get(id=id)
-    except News.DoesNotExist:
-        return Response(status=404)
+from news_app.models import News
 
 
-class NewsListView(APIView):
-    """Show all News, existing in DB"""
-
-    def get(self, request):
-        news = News.objects.all()
-        serializer = NewsListSerializer(news, many=True)
-        return Response(serializer.data)
+def welcoming_view(request):
+    return render(request, "index.html")
 
 
-class NewsDetailView(APIView):
-    """Show single News with id = pk"""
-
-    def get(self, request, pk):
-        news = get_news(id=pk)
-        serializer = NewsDetailSerializer(news)
-        print(serializer.data)
-        return Response(serializer.data)
+def news_list_view(request):
+    news_list = News.objects.all()
+    return render(request, "news_list.html", context={"news_list": news_list})
 
 
-class NewsCreateView(APIView):
-    """Create new News"""
-
-    def post(self, request):
-        news = NewsDetailSerializer(data=request.data)
-        if news.is_valid():
-            news.save()
-        return Response(status=201)
+def welcoming_redirect_view(request):
+    # Redirected, because i want a home page with "/home" slug
+    return HttpResponseRedirect('/home')
 
 
-class NewsDeleteView(APIView):
-    """Delete News with id = pk"""
-
-    def delete(self, request, pk):
-        news = get_news(id=pk)
-        news.delete()
-        return Response(status=204)
-
-
-class NewsUpdateView(APIView):
-    """Update News with id = pk"""
-
-    def put(self, request, pk):
-        news = get_news(id=pk)
-        serializer = NewsDetailSerializer(news, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=400)
+def users_list_view(request):
+    # Refactor for 1 queryset except 2, give DB a little break
+    users = User.objects.all()
+    news = News.objects.all()
+    return render(request, "users_with_news.html", context={"users": users,
+                                                       "news": news})

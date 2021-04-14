@@ -16,8 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from news_app import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include("rest_framework.urls", namespace="rest_framework")),
     path('api/', include("news_app.urls")),
+    path("", views.welcoming_redirect_view, name="base"),
+    path("news_list/", views.news_list_view, name="news_list"),
+    path("home/", views.welcoming_view),
+    path("users_list/", views.users_list_view)
 ]

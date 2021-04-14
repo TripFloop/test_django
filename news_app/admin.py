@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import News
+from .models import News, MenuItem
 
 
 # Register your models here.
@@ -11,3 +11,6 @@ class NewsAdmin(admin.ModelAdmin):
     date_hierarchy = "publication_date"
     search_fields = ("name",)
     readonly_fields = ("id", "publication_date")
+
+
+admin.site.register(MenuItem)

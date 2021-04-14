@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{% load counter_tag %}
+{% block title %}
+    NewsList
+{% endblock %}
+
+{% block content %}
+    <h1 class = "m-5">Users list</h1>
+    {% for user in users %}
+    <div class="m-5">
+        <h2 class="mt-5"> Пользователь {{ user.username }}: [{% counting news user.id %}]</h2>
+    </div>
+    {% endfor %}
+{% endblock %}
