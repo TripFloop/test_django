@@ -9,5 +9,7 @@ class EditHTMLMiddleware:
         content_decoded = response.content.decode()
         new_content = content_decoded[:index] + "<! - HelloWorld >" + content_decoded[index:]
         # after need to encode it back
+        content_decoded = response.content.decode()
+        new_content = content_decoded[:index] + "<! - HelloWorld >" + content_decoded[index:]
         response.content = new_content.encode("utf-8")
         return response
