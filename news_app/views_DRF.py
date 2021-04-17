@@ -25,9 +25,10 @@ class NewsDetailView(APIView):
     """Show single News with id = pk"""
 
     def get(self, request, pk):
-        news = get_news(id=pk)
+        news = get_news(pk)
+        if isinstance(news, Response):  # Bad practice
+            return Response(status=404)
         serializer = NewsDetailSerializer(news)
-        print(serializer.data)
         return Response(serializer.data)
 
 
@@ -38,6 +39,8 @@ class NewsCreateView(APIView):
         news = NewsDetailSerializer(data=request.data)
         if news.is_valid():
             news.save()
+        else:
+            return Response(status=422)  # or Response(status=400)?
         return Response(status=201)
 
 
@@ -45,7 +48,9 @@ class NewsDeleteView(APIView):
     """Delete News with id = pk"""
 
     def delete(self, request, pk):
-        news = get_news(id=pk)
+        news = get_news(pk)
+        if isinstance(news, Response):  # Bad practice
+            return Response(status=404)
         news.delete()
         return Response(status=204)
 
@@ -54,7 +59,9 @@ class NewsUpdateView(APIView):
     """Update News with id = pk"""
 
     def put(self, request, pk):
-        news = get_news(id=pk)
+        news = get_news(pk)
+        if isinstance(news, Response):  # Bad practice
+            return Response(status=404)
         serializer = NewsDetailSerializer(news, data=request.data)
         if serializer.is_valid():
             serializer.save()
